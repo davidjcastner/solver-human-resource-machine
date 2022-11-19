@@ -1,0 +1,28 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    JUMP     start
+
+iszero:
+    OUTBOX
+
+start:
+    INBOX    
+    COPYTO   0
+    JUMPN    countup
+    
+dncheckifzero:
+    JUMPZ    iszero
+
+countdown:
+    OUTBOX   
+    BUMPDN   0
+    JUMP     dncheckifzero
+
+upcheckifzero:
+    JUMPZ    iszero
+
+countup:
+    OUTBOX
+    BUMPUP   0
+    JUMP     upcheckifzero
+

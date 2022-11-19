@@ -1,0 +1,49 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    JUMP     start
+returnValues:
+    COPYFROM 0
+    OUTBOX
+    COPYFROM 1
+    OUTBOX
+    COPYFROM 2
+    OUTBOX
+start:
+    INBOX   
+    COPYTO   0
+    INBOX   
+    COPYTO   1
+    INBOX   
+    COPYTO   2
+    -- compare B and C --
+    SUB      1
+    JUMPN    swapBC
+    JUMP     BCsorted
+swapBC:
+    COPYFROM 2
+    COPYTO   3
+    COPYFROM 1
+    COPYTO   2
+    COPYFROM 3
+    COPYTO   1
+BCsorted:
+    -- compare A and B --
+    COPYFROM 1
+    SUB      0
+    JUMPN    swapAB
+    JUMP     returnValues
+swapAB:
+    COPYFROM 1
+    COPYTO   3
+    COPYFROM 0
+    COPYTO   1
+    COPYFROM 3
+    COPYTO   0
+    -- AB sorted check BC again --
+    COPYFROM 2
+    SUB      1
+    JUMPN    swapBC
+    JUMP     returnValues
+
+
+

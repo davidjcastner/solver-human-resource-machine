@@ -1,0 +1,15 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    JUMP     loopstart
+returnouput:
+    COPYFROM 0
+    OUTBOX  
+loopstart:
+    INBOX   
+    COPYTO   0
+    INBOX   
+    SUB      0
+    JUMPZ    returnouput
+    JUMP     loopstart
+
+

@@ -1,0 +1,24 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+start:
+    INBOX   
+    JUMPN    AIsNeg
+-- A is Pos --
+    INBOX   
+    JUMPN    DiffSign
+
+SameSign:
+    COPYFROM 4
+    OUTBOX  
+    JUMP     start
+
+AIsNeg:
+    INBOX   
+    JUMPN    SameSign
+
+DiffSign:
+    COPYFROM 5
+    OUTBOX  
+    JUMP     start
+
+

@@ -1,0 +1,26 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+-- n -> 40 * n --
+-- 40 = 32 + 8 --
+
+main:
+    INBOX   
+-- r0 = n --
+    COPYTO   0
+    ADD      0
+-- r0 = 2n --
+    COPYTO   0
+    ADD      0
+-- r0 = 4n --
+    COPYTO   0
+    ADD      0
+-- r0 = 8n --
+    COPYTO   0
+    ADD      0
+-- r1 = 16n --
+    COPYTO   1
+    ADD      1
+    ADD      0
+    OUTBOX  
+    JUMP     main
+
+

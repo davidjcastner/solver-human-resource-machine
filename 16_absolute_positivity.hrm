@@ -1,0 +1,15 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    JUMP     start
+flipsign:
+    COPYTO   0
+    SUB      0
+    SUB      0
+return:
+    OUTBOX  
+start:
+    INBOX   
+    JUMPN    flipsign
+    JUMP     return
+
+

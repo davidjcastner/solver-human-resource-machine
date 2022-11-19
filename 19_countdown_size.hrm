@@ -1,0 +1,20 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+start:
+    INBOX   
+    COPYTO   0
+    JUMPN    countup
+
+countdown:
+    OUTBOX
+    COPYFROM 0
+    JUMPZ    start
+    BUMPDN   0
+    JUMP     countdown
+
+countup:
+    OUTBOX
+    COPYFROM 0
+    JUMPZ    start
+    BUMPUP   0
+    JUMP     countup

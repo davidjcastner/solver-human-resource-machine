@@ -1,0 +1,36 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- there is a zero in r9 --
+
+setup:
+    -- setup for new sequence -- 
+    COPYFROM 9
+    -- COPYTO   1 (unnecessary) --
+    COPYTO   2
+    COPYTO   3
+    BUMPUP   3
+    -- leave inbox number in r0 --
+    INBOX   
+    COPYTO   0
+    JUMP     comparison
+
+returnfib:
+    COPYFROM 3
+    OUTBOX   
+    -- update fib registers --
+    COPYFROM 2
+    COPYTO   1
+    COPYFROM 3
+    COPYTO   2
+    ADD      1
+    COPYTO   3
+    -- grab inbox value for comparison --
+    COPYFROM 0
+
+comparison:
+    -- use from inbox value (currently in hand) --
+    SUB      3
+    -- if subtracting fib num and result is negative, then the fib num > inbox num --
+    JUMPN    setup
+    JUMP     returnfib
+
