@@ -1,0 +1,21 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    JUMP     setup
+returnValues:
+    ADD      15
+    OUTBOX  
+    COPYFROM 12
+    OUTBOX  
+setup:
+    COPYFROM 14
+    COPYTO   12
+    INBOX    
+divide:
+    SUB      15
+    JUMPN    returnValues
+    COPYTO   13
+    BUMPUP   12
+    COPYFROM 13
+    JUMP     divide
+
+

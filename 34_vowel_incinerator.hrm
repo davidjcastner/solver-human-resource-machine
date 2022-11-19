@@ -1,0 +1,20 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    JUMP     setup
+returnLetter:
+    COPYFROM 7
+    OUTBOX  
+setup:
+    COPYFROM 5
+    COPYTO   6
+    INBOX   
+    COPYTO   7
+checkValue:
+    COPYFROM [6]
+    JUMPZ    returnLetter
+    SUB      7
+    JUMPZ    setup
+    BUMPUP   6
+    JUMP     checkValue
+
+

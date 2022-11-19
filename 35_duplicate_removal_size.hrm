@@ -1,0 +1,30 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- r12: array index --
+-- r13: array length --
+-- r14: 0 value --
+
+    COPYFROM 14
+    COPYTO   13
+    JUMP     setup
+returnUniqueLetter:
+    COPYFROM [13]
+    OUTBOX   
+    BUMPUP   13
+setup:
+    INBOX    
+    COPYTO   [13]
+    COPYFROM 14
+    COPYTO   12
+comparison:
+    SUB      13
+    JUMPZ    returnUniqueLetter
+    COPYFROM [12]
+    SUB      [13]
+    -- if comparison is zero, then its a dup --
+    JUMPZ    setup
+    BUMPUP   12
+    JUMP     comparison
+
+
+

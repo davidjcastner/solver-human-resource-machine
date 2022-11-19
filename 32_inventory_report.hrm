@@ -1,0 +1,36 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- r14: 0 value --
+-- r17: inbox element --
+-- r18: count of element --
+-- r19: index --
+
+    JUMP     setup
+
+returnCount:
+    COPYFROM 18
+    OUTBOX   
+
+setup:
+    COPYFROM 14
+    COPYTO   19
+    COPYTO   18
+    INBOX   
+    COPYTO   17
+    JUMP     checkValue
+
+incrementCount:
+    BUMPUP   18
+
+incrementIndex:
+    BUMPUP   19
+
+checkValue:
+    COPYFROM [19]
+    JUMPZ    returnCount
+    SUB      17
+    JUMPZ    incrementCount
+    JUMP     incrementIndex
+
+
+

@@ -1,0 +1,39 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+-- not working at the moment --
+
+-- r0: larger number --
+-- r1: smaller number and countdown value --
+-- r2: product --
+-- r9: zero value --
+
+    JUMP     setup
+returnProduct:
+    COPYFROM 2
+    OUTBOX   
+setup:
+    COPYFROM 9
+    COPYTO   2
+    INBOX    
+    COPYTO   0
+    COPYTO   1
+    INBOX    
+    SUB      0
+    -- if negative, than 1st inbox is larger, place in r1 --
+    JUMPN    AIsLarger
+    JUMP     BIsLarger
+AIsLarger:
+    ADD      0
+    COPYTO   1
+    JUMP     multiply
+BIsLarger:
+    ADD      0
+    COPYTO   0
+multiply:
+    BUMPDN   1
+    JUMPN    returnProduct
+    COPYFROM 0
+    ADD      2
+    COPYTO   2
+    JUMP     multiply
+
+
