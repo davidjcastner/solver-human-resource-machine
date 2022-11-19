@@ -1,0 +1,19 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+    JUMP     readInbox
+initStringLength:
+    BUMPUP   14
+readInbox:
+    INBOX    
+    JUMPZ    writeOutbox
+    COPYTO   [14]
+    BUMPUP   14
+    JUMP     readInbox
+writeOutbox:
+    BUMPDN   14
+    JUMPN    initStringLength
+    COPYFROM [14]
+    OUTBOX
+    JUMP     writeOutbox
+
+

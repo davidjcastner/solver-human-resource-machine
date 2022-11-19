@@ -1,0 +1,13 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+start:
+    INBOX    
+    COPYTO   24
+loop:
+    COPYFROM [24]
+    JUMPZ    start
+    OUTBOX   
+    BUMPUP   24
+    JUMP     loop
+
+
