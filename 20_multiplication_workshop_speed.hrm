@@ -1,39 +1,208 @@
 -- HUMAN RESOURCE MACHINE PROGRAM --
--- not working at the moment --
 
--- r0: larger number --
--- r1: smaller number and countdown value --
--- r2: product --
+-- r0: inbox A --
+-- r1: inbox B --
 -- r9: zero value --
 
-    JUMP     setup
-returnProduct:
-    COPYFROM 2
-    OUTBOX   
-setup:
+    JUMP     processInbox
+
+aIsZero:
+    INBOX    
     COPYFROM 9
-    COPYTO   2
+
+bIsZero:
+returnProduct:
+    OUTBOX   
+
+processInbox:
+    -- get inbox A --
     INBOX    
+    JUMPZ    aIsZero
     COPYTO   0
-    COPYTO   1
+    -- get inbox B --
     INBOX    
+    JUMPZ    bIsZero
+    COPYTO   1
+
+    -- check if B < A (B already in hand) --
+    -- if B - A < 0, then B < A --
     SUB      0
-    -- if negative, than 1st inbox is larger, place in r1 --
-    JUMPN    AIsLarger
-    JUMP     BIsLarger
-AIsLarger:
-    ADD      0
-    COPYTO   1
-    JUMP     multiply
-BIsLarger:
-    ADD      0
-    COPYTO   0
-multiply:
+    JUMPN    aIsLarger
+
+-- bIsLarger: --
+    -- decrease A until zero --
+    BUMPDN   0
+    JUMPZ    aEquals0001
+    BUMPDN   0
+    JUMPZ    aEquals0010
+    BUMPDN   0
+    JUMPZ    aEquals0011
+    BUMPDN   0
+    JUMPZ    aEquals0100
+    BUMPDN   0
+    JUMPZ    aEquals0101
+    BUMPDN   0
+    JUMPZ    aEquals0110
+    BUMPDN   0
+    JUMPZ    aEquals0111
+    BUMPDN   0
+    JUMPZ    aEquals1000
+    BUMPDN   0
+    JUMPZ    aEquals1001
+
+aIsLarger:
+    -- decrease B until zero --
     BUMPDN   1
-    JUMPN    returnProduct
-    COPYFROM 0
-    ADD      2
+    JUMPZ    bEquals0001
+    BUMPDN   1
+    JUMPZ    bEquals0010
+    BUMPDN   1
+    JUMPZ    bEquals0011
+    BUMPDN   1
+    JUMPZ    bEquals0100
+    BUMPDN   1
+    JUMPZ    bEquals0101
+    BUMPDN   1
+    JUMPZ    bEquals0110
+    BUMPDN   1
+    JUMPZ    bEquals0111
+    BUMPDN   1
+    JUMPZ    bEquals1000
+    BUMPDN   1
+    JUMPZ    bEquals1001
+
+-- adding parts of B --
+
+aEquals0001:
+    COPYFROM 1
+    JUMP     returnProduct
+
+aEquals0010:
+    COPYFROM 1
+    ADD      1
+    JUMP     returnProduct
+
+aEquals0011:
+    COPYFROM 1
+    ADD      1
+    ADD      1
+    JUMP     returnProduct
+
+aEquals0100:
+    COPYFROM 1
+    ADD      1
     COPYTO   2
-    JUMP     multiply
+    ADD      2
+    JUMP     returnProduct
 
+aEquals0101:
+    COPYFROM 1
+    ADD      1
+    COPYTO   2
+    ADD      2
+    ADD      1
+    JUMP     returnProduct
 
+aEquals0110:
+    COPYFROM 1
+    ADD      1
+    COPYTO   2
+    ADD      2
+    ADD      2
+    JUMP     returnProduct
+
+aEquals0111:
+    COPYFROM 1
+    ADD      1
+    COPYTO   2
+    ADD      2
+    ADD      2
+    ADD      1
+    JUMP     returnProduct
+
+aEquals1000:
+    COPYFROM 1
+    ADD      1
+    COPYTO   2
+    ADD      2
+    COPYTO   3
+    ADD      3
+    JUMP     returnProduct
+
+aEquals1001:
+    COPYFROM 1
+    ADD      1
+    COPYTO   2
+    ADD      2
+    COPYTO   3
+    ADD      3
+    ADD      1
+    JUMP     returnProduct
+
+-- adding parts of A --
+
+bEquals0001:
+    COPYFROM 0
+    JUMP     returnProduct
+
+bEquals0010:
+    COPYFROM 0
+    ADD      0
+    JUMP     returnProduct
+
+bEquals0011:
+    COPYFROM 0
+    ADD      0
+    ADD      0
+    JUMP     returnProduct
+
+bEquals0100:
+    COPYFROM 0
+    ADD      0
+    COPYTO   2
+    ADD      2
+    JUMP     returnProduct
+
+bEquals0101:
+    COPYFROM 0
+    ADD      0
+    COPYTO   2
+    ADD      2
+    ADD      0
+    JUMP     returnProduct
+
+bEquals0110:
+    COPYFROM 0
+    ADD      0
+    COPYTO   2
+    ADD      2
+    ADD      2
+    JUMP     returnProduct
+
+bEquals0111:
+    COPYFROM 0
+    ADD      0
+    COPYTO   2
+    ADD      2
+    ADD      2
+    ADD      0
+    JUMP     returnProduct
+
+bEquals1000:
+    COPYFROM 0
+    ADD      0
+    COPYTO   2
+    ADD      2
+    COPYTO   3
+    ADD      3
+    JUMP     returnProduct
+
+bEquals1001:
+    COPYFROM 0
+    ADD      0
+    COPYTO   2
+    ADD      2
+    COPYTO   3
+    ADD      3
+    ADD      0
+    JUMP     returnProduct

@@ -1,0 +1,143 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- hardcode each check stage based on number of uniques --
+-- assumption: < 8 uniques --
+
+
+-- first inbox always unique --
+    INBOX    
+    COPYTO   0
+    OUTBOX   
+
+locateUnique2:
+    -- search for unique 2 --
+    INBOX    
+    COPYTO   1
+    SUB      0
+    JUMPZ    locateUnique2
+    -- return unique 2 --
+    COPYFROM 1
+    OUTBOX
+
+locateUnique3:
+    -- search for unique 3 --
+    INBOX    
+    COPYTO   2
+    SUB      1
+    JUMPZ    locateUnique3
+    COPYFROM 2
+    SUB      0
+    JUMPZ    locateUnique3
+    -- return unique 3 --
+    COPYFROM 2
+    OUTBOX
+
+locateUnique4:
+    -- search for unique 4 --
+    INBOX    
+    COPYTO   3
+    SUB      2
+    JUMPZ    locateUnique4
+    COPYFROM 3
+    SUB      1
+    JUMPZ    locateUnique4
+    COPYFROM 3
+    SUB      0
+    JUMPZ    locateUnique4
+    -- return unique 4 --
+    COPYFROM 3
+    OUTBOX
+
+locateUnique5:
+    -- search for unique 5 --
+    INBOX    
+    COPYTO   4
+    SUB      3
+    JUMPZ    locateUnique5
+    COPYFROM 4
+    SUB      2
+    JUMPZ    locateUnique5
+    COPYFROM 4
+    SUB      1
+    JUMPZ    locateUnique5
+    COPYFROM 4
+    SUB      0
+    JUMPZ    locateUnique5
+    -- return unique 5 --
+    COPYFROM 4
+    OUTBOX
+
+locateUnique6:
+    -- search for unique 6 --
+    INBOX    
+    COPYTO   5
+    SUB      4
+    JUMPZ    locateUnique6
+    COPYFROM 5
+    SUB      3
+    JUMPZ    locateUnique6
+    COPYFROM 5
+    SUB      2
+    JUMPZ    locateUnique6
+    COPYFROM 5
+    SUB      1
+    JUMPZ    locateUnique6
+    COPYFROM 5
+    SUB      0
+    JUMPZ    locateUnique6
+    -- return unique 6 --
+    COPYFROM 5
+    OUTBOX
+
+locateUnique7:
+    -- search for unique 7 --
+    INBOX    
+    COPYTO   6
+    SUB      5
+    JUMPZ    locateUnique7
+    COPYFROM 6
+    SUB      4
+    JUMPZ    locateUnique7
+    COPYFROM 6
+    SUB      3
+    JUMPZ    locateUnique7
+    COPYFROM 6
+    SUB      2
+    JUMPZ    locateUnique7
+    COPYFROM 6
+    SUB      1
+    JUMPZ    locateUnique7
+    COPYFROM 6
+    SUB      0
+    JUMPZ    locateUnique7
+    -- return unique 7 --
+    COPYFROM 6
+    OUTBOX
+
+locateUnique8:
+    -- search for unique 8 --
+    INBOX    
+    COPYTO   7
+    SUB      6
+    JUMPZ    locateUnique8
+    COPYFROM 7
+    SUB      5
+    JUMPZ    locateUnique8
+    COPYFROM 7
+    SUB      4
+    JUMPZ    locateUnique8
+    COPYFROM 7
+    SUB      3
+    JUMPZ    locateUnique8
+    COPYFROM 7
+    SUB      2
+    JUMPZ    locateUnique8
+    COPYFROM 7
+    SUB      1
+    JUMPZ    locateUnique8
+    COPYFROM 7
+    SUB      0
+    JUMPZ    locateUnique8
+    -- return unique 8 --
+    COPYFROM 7
+    OUTBOX

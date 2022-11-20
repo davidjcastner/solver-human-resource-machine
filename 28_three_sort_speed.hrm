@@ -1,0 +1,90 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+start:
+    INBOX   
+    COPYTO   0
+    INBOX    
+    COPYTO   1
+    SUB      0
+    -- B - A < 0 => A > B --
+    JUMPN    orderBA
+
+-- orderAB: --
+    INBOX    
+    COPYTO   2
+    SUB      1
+    -- C - B < 0 => B > C --
+    JUMPN    orderACBorCAB
+
+-- orderABC: --
+    COPYFROM 0
+    OUTBOX   
+    COPYFROM 1
+    OUTBOX   
+    COPYFROM 2
+    OUTBOX   
+    JUMP     start
+
+orderBA:
+    INBOX    
+    COPYTO   2
+    SUB      1
+    -- C - B < 0 => B > C --
+    JUMPN    orderCBA
+
+-- orderBACorBCA: --
+    COPYFROM 2
+    SUB      0
+    -- C - A < 0 => A > C --
+    JUMPN    orderBCA
+
+-- orderBAC: --
+    COPYFROM 1
+    OUTBOX   
+    COPYFROM 0
+    OUTBOX   
+    COPYFROM 2
+    OUTBOX   
+    JUMP     start
+
+orderACBorCAB:
+    COPYFROM 2
+    SUB      0
+    -- C - A < 0 => A > C --
+    JUMPN    orderCAB
+
+-- orderACB: --
+    COPYFROM 0
+    OUTBOX   
+    COPYFROM 2
+    OUTBOX   
+    COPYFROM 1
+    OUTBOX   
+    JUMP     start
+
+orderBCA:
+    COPYFROM 1
+    OUTBOX   
+    COPYFROM 2
+    OUTBOX   
+    COPYFROM 0
+    OUTBOX   
+    JUMP     start
+
+orderCAB:
+    COPYFROM 2
+    OUTBOX   
+    COPYFROM 0
+    OUTBOX   
+    COPYFROM 1
+    OUTBOX   
+    JUMP     start
+
+orderCBA:
+    COPYFROM 2
+    OUTBOX   
+    COPYFROM 1
+    OUTBOX   
+    COPYFROM 0
+    OUTBOX   
+    JUMP     start

@@ -1,0 +1,179 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- there is a zero in r9 --
+-- setup fib sequence in registers --
+
+-- setup sequence phase: --
+    -- r9 = 1 --
+    BUMPUP   9
+    ADD      9
+    -- r8 = 2 --
+    COPYTO   8
+    ADD      9
+    -- r7 = 3 --
+    COPYTO   7
+    ADD      8
+    -- r6 = 5 --
+    COPYTO   6
+    ADD      7
+    -- r5 = 8 --
+    COPYTO   5
+    ADD      6
+    -- r4 = 13 --
+    COPYTO   4
+    ADD      5
+    -- r3 = 21 --
+    COPYTO   3
+    ADD      4
+    -- r2 = 34 --
+    COPYTO   2
+
+nextInbox:
+    -- potential speed up, binary search --
+    INBOX    
+    SUB      5
+    -- inbox - 8 < 0 => inbox < 8 --
+    JUMPN    inboxLessThan8
+    ADD      5
+    SUB      3
+    -- inbox - 21 < 0 => inbox < 21 --
+    JUMPN    inboxLessThan21
+    ADD      3
+    SUB      2
+    -- inbox - 34 < 0 => inbox < 34 --
+    JUMPN    return21
+    JUMP     return34
+inboxLessThan8:
+    ADD      5
+    SUB      7
+    -- inbox - 3 < 0 => inbox < 3 --
+    JUMPN    inboxLessThan3
+    ADD      7
+    SUB      6
+    -- inbox - 5 < 0 => inbox < 5 --
+    JUMPN    return3
+    JUMP     return5
+inboxLessThan21:
+    ADD      3
+    SUB      4
+    -- inbox - 13 < 0 => inbox < 13 --
+    JUMPN    return8
+    JUMP     return13
+inboxLessThan3:
+    ADD      7
+    SUB      8
+    -- inbox - 2 < 0 => inbox < 2 --
+    JUMPN    return1
+    -- JUMP     return2 --
+
+-- return2: --
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 8
+    OUTBOX   
+    JUMP     nextInbox
+
+return1:
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    JUMP     nextInbox
+
+return3:
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 8
+    OUTBOX   
+    COPYFROM 7
+    OUTBOX   
+    JUMP     nextInbox
+
+return5:
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 8
+    OUTBOX   
+    COPYFROM 7
+    OUTBOX   
+    COPYFROM 6
+    OUTBOX   
+    JUMP     nextInbox
+
+return8:
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 8
+    OUTBOX   
+    COPYFROM 7
+    OUTBOX   
+    COPYFROM 6
+    OUTBOX   
+    COPYFROM 5
+    OUTBOX   
+    JUMP     nextInbox
+
+return13:
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 8
+    OUTBOX   
+    COPYFROM 7
+    OUTBOX   
+    COPYFROM 6
+    OUTBOX   
+    COPYFROM 5
+    OUTBOX   
+    COPYFROM 4
+    OUTBOX   
+    JUMP     nextInbox
+
+return21:
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 8
+    OUTBOX   
+    COPYFROM 7
+    OUTBOX   
+    COPYFROM 6
+    OUTBOX   
+    COPYFROM 5
+    OUTBOX   
+    COPYFROM 4
+    OUTBOX   
+    COPYFROM 3
+    OUTBOX   
+    JUMP     nextInbox
+
+return34:
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 8
+    OUTBOX   
+    COPYFROM 7
+    OUTBOX   
+    COPYFROM 6
+    OUTBOX   
+    COPYFROM 5
+    OUTBOX   
+    COPYFROM 4
+    OUTBOX   
+    COPYFROM 3
+    OUTBOX   
+    COPYFROM 2
+    OUTBOX   
+    JUMP     nextInbox
