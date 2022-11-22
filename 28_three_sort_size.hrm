@@ -1,54 +1,53 @@
 -- HUMAN RESOURCE MACHINE PROGRAM --
 
-start:
+-- sorts values so that r0 < r1 < r2 --
+
+readValues:
     INBOX   
     COPYTO   0
     INBOX   
     COPYTO   1
     INBOX   
     COPYTO   2
-    -- compare B and C --
-    SUB      1
-    JUMPN    swapBC
-    -- JUMP     BCsorted --
 
-BCsorted:
-    -- compare A and B --
+compareR0R1:
     COPYFROM 1
     SUB      0
-    JUMPN    swapAB
-    -- JUMP     returnValues --
+    -- r1 - r0 < 0 ==> r0 > r1 which is incorrect --
+    JUMPN    swapR0R1
+compareR1R2:
+    COPYFROM 2
+    SUB      1
+    -- r2 - r1 < 0 ==> r1 > r2 which is incorrect --
+    JUMPN    swapR1R2
+
+    -- assertion, both checks passed ==> r0 < r1 < r2 --
 
 returnValues:
     COPYFROM 0
-    OUTBOX
+    OUTBOX   
     COPYFROM 1
-    OUTBOX
+    OUTBOX   
     COPYFROM 2
-    OUTBOX
-    JUMP     start
+    OUTBOX   
+    JUMP     readValues
 
-swapBC:
-    COPYFROM 2
-    COPYTO   3
-    COPYFROM 1
-    COPYTO   2
-    COPYFROM 3
-    COPYTO   1
-    JUMP     BCsorted
-
-swapAB:
-    COPYFROM 1
-    COPYTO   3
+swapR0R1:
     COPYFROM 0
+    COPYTO   3
+    COPYFROM 1
+    COPYTO   0
+    COPYFROM 3
+    COPYTO   1
+    -- can jump to compareR1R2 because r0 < r1 after swap --
+    JUMP     compareR1R2
+
+swapR1R2:
+    COPYFROM 1
+    COPYTO   3
+    COPYFROM 2
     COPYTO   1
     COPYFROM 3
-    COPYTO   0
-    -- AB sorted check BC again --
-    COPYFROM 2
-    SUB      1
-    JUMPN    swapBC
-    JUMP     returnValues
-
-
-
+    COPYTO   2
+    --jump back to compareR0R1 to reperform checks on r0 after swap --
+    JUMP     compareR0R1

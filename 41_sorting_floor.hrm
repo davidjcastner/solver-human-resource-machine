@@ -1,0 +1,80 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- simple sorting algorithm: --
+-- find next smallest element and move to current index --
+-- run time: O(n^2) --
+
+-- r18: swap space --
+-- r19: smallest value index --
+-- r20: loop index --
+-- r21: loop index + 1 --
+-- r22: sort index --
+-- r23: array length --
+-- r24: zero value --
+
+setup:
+    COPYFROM 24
+    COPYTO   23
+    COPYTO   22
+
+readArray:
+    INBOX
+    JUMPZ    sortArray
+    COPYTO   [23]
+    BUMPUP   23
+    JUMP     readArray
+
+sortArray:
+    -- check if sort index is at end of array --
+    -- find next smallest element and swap --
+
+findSmallest:
+    COPYFROM 22
+    COPYTO   21
+    COPYTO   20
+    COPYTO   19
+    BUMPUP   21
+    SUB      23
+    JUMPZ    readArrayLoop
+
+findSmallestLoop:
+    COPYFROM [19]
+    SUB      [21]
+    JUMPN    didNotFindSmallest
+    COPYFROM 21
+    COPYTO   19
+didNotFindSmallest:
+    BUMPUP   20
+    BUMPUP   21
+    SUB      23
+    JUMPN    findSmallestLoop
+
+    -- check if swap needed, then swap --
+    COPYFROM 19
+    SUB      22
+    JUMPZ    skipSwap
+    COPYFROM [19]
+    COPYTO   18
+    COPYFROM [22]
+    COPYTO   [19]
+    COPYFROM 18
+    COPYTO   [22]
+
+skipSwap:
+    BUMPUP   22
+    -- assertion: r20 = r23 - 1 --
+    SUB      20
+    JUMPZ    returnArray
+    JUMP     sortArray
+
+returnArray:
+    COPYFROM 24
+    COPYTO   20
+readArrayLoop:
+    COPYFROM 23
+    SUB      20
+    JUMPZ    setup
+    COPYFROM [20]
+    OUTBOX
+    BUMPUP   20
+    JUMP     readArrayLoop

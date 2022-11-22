@@ -1,0 +1,66 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- r20: loop index I --
+-- r21: loop index J --
+-- r23: zero and starting index of array A --
+-- r24: 10 and starting index of array B --
+
+    -- set loop index I to start of array A--
+    COPYFROM 23
+    COPYTO   20
+
+readString:
+    INBOX    
+    COPYTO   [20]
+    JUMPZ    switchRead
+    BUMPUP   20
+    JUMP     readString
+
+-- switching read indexing saves 1 instruction --
+
+switchReadIndex:
+    COPYFROM 24
+    COPYTO   20
+    JUMP     readString
+
+switchRead:
+    COPYFROM 20
+    SUB      24
+    JUMPN    switchReadIndex
+
+setupComparison:
+    BUMPDN   23
+    COPYTO   20
+    BUMPDN   24
+    COPYTO   21
+    -- JUMP     compareCharacters --
+
+compareNext:
+    BUMPUP   20
+    BUMPUP   21
+
+compareCharacters:
+    COPYFROM [20]
+    SUB      [21]
+    JUMPN    returnStringA
+    JUMPZ    compareNext
+
+returnStringB:
+    BUMPUP   24
+    JUMP     returnStringPrep
+
+returnStringA:
+    BUMPUP   23
+
+returnStringPrep:
+    COPYTO   22
+
+returnString:
+    COPYFROM [22]
+    JUMPZ    endProgram
+    OUTBOX   
+    BUMPUP   22
+    JUMP     returnString
+
+endProgram:
+
