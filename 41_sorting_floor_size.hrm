@@ -1,63 +1,59 @@
 -- HUMAN RESOURCE MACHINE PROGRAM --
 
 -- simple sorting algorithm: --
--- find next smallest element and move to current index --
+-- find next smallest element and return to outbox --
+-- return as you sort method --
 -- run time: O(n^2) --
 
--- r19: loop index --
--- r20: sort index --
--- r21: array length --
--- r22: swap index --
--- r23: swap space --
+-- r20: loop index (next value to check) --
+-- r21: sort index (start of slice left to sort) --
+-- r22: swap index (index of the smallest value) --
+-- r23: array length (not sure if needed) --
 -- r24: zero value --
 
 
-setup:
+readArray:
     COPYFROM 24
+    COPYTO   23
+    COPYTO   22
     COPYTO   21
     COPYTO   20
 
-readArray:
+readArrayLoop:
+    -- optional speed up, expand out loop --
     INBOX
-    COPYTO   [21]
+    COPYTO   [23]
+    -- jumping to sortArray under following assertion --
+    -- assertion: all array have at least one element --
     JUMPZ    sortArray
+    BUMPUP   23
+    JUMP     readArrayLoop
+
+returnSmallest:
+    COPYFROM [22]
+    OUTBOX   
+    -- replace value at swap index with value at sort index --
+    COPYFROM [21]
+    COPYTO   [22]
+    -- update sort index, swap index, and  loop index --
     BUMPUP   21
-    JUMP     readArray
+    COPYTO   22
+    COPYTO   20
+    -- check if end of array --
+    SUB      23
+    JUMPZ    readArray
 
 sortArray:
-    BUMPDN   21
+    -- next value in array - current smallest value --
+    -- if next vlaue in array is zero, then return cuurent value --
+    BUMPUP   20
+    COPYFROM [20]
+    JUMPZ    returnSmallest
+    SUB      [22]
+    JUMPN    swapSmallestIndex
+    JUMP     sortArray
 
-setupNextFind:
+swapSmallestIndex:
     COPYFROM 20
     COPYTO   22
-    COPYTO   19
-
-findLargest:
-    BUMPUP   19
-    COPYFROM [19]
-    JUMPZ    swapLargest
-    SUB      [22]
-    JUMPN    findLargest
-    COPYFROM 19
-    COPYTO   22
-    JUMP     findLargest
-
-swapLargest:
-    COPYFROM [22]
-    COPYTO   23
-    COPYFROM [20]
-    COPYTO   [22]
-    COPYFROM 23
-    COPYTO   [20]
-
-incrementSortIndex:
-    BUMPUP   20
-    SUB      21
-    JUMPN    setupNextFind
-
-returnArray:
-    COPYFROM [21]
-    OUTBOX   
-    BUMPDN   21
-    JUMPN    setup
-    JUMP     returnArray
+    JUMP     sortArray

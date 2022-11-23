@@ -1,0 +1,144 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- simple sorting algorithm: --
+-- find next smallest element and return to outbox --
+-- return as you sort method --
+-- run time: O(n^2) --
+
+-- r20: loop index (next value to check) --
+-- r21: sort index (start of slice left to sort) --
+-- r22: swap index (index of the smallest value) --
+-- r23: array length (not sure if needed) --
+-- r24: zero value --
+
+readValues:
+    INBOX   
+    COPYTO   0
+    INBOX   
+    COPYTO   1
+    INBOX   
+    COPYTO   2
+
+compareR0R1:
+    COPYFROM 1
+    SUB      0
+    -- r1 - r0 < 0 ==> r0 > r1 which is incorrect --
+    JUMPN    swapR0R1
+compareR1R2:
+    COPYFROM 2
+    SUB      1
+    -- r2 - r1 < 0 ==> r1 > r2 which is incorrect --
+    JUMPN    swapR1R2
+
+    -- assertion, both checks passed ==> r0 < r1 < r2 --
+
+returnValues:
+    COPYFROM 0
+    OUTBOX   
+    COPYFROM 1
+    OUTBOX   
+    COPYFROM 2
+    OUTBOX   
+    INBOX    
+    JUMP     readArray
+
+swapR0R1:
+    COPYFROM 0
+    COPYTO   3
+    COPYFROM 1
+    COPYTO   0
+    COPYFROM 3
+    COPYTO   1
+    -- can jump to compareR1R2 because r0 < r1 after swap --
+    JUMP     compareR1R2
+
+swapR1R2:
+    COPYFROM 1
+    COPYTO   3
+    COPYFROM 2
+    COPYTO   1
+    COPYFROM 3
+    COPYTO   2
+    --jump back to compareR0R1 to reperform checks on r0 after swap --
+    JUMP     compareR0R1
+    JUMP     readArray
+
+returnLastElement:
+    COPYFROM [21]
+    OUTBOX   
+
+readArray:
+    -- setup indexes --
+    COPYFROM 24
+    COPYTO   22
+    COPYTO   21
+    COPYTO   20
+
+    INBOX    
+    COPYTO   0
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   1
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   2
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   3
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   4
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   5
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   6
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   7
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   8
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   9
+    JUMPZ    isEndOfArray
+    INBOX    
+    COPYTO   10
+    JUMPZ    isEndOfArray
+
+swapSmallestIndex:
+    COPYFROM 20
+    COPYTO   22
+    JUMP     sortArray
+
+isEndOfArray:
+    -- checks if the next element + 1 is the end of the array --
+    COPYFROM 21
+    COPYTO   23
+    BUMPUP   23
+    COPYFROM [23]
+    JUMPZ    returnLastElement
+
+sortArray:
+    -- next value in array - current smallest value --
+    -- if next vlaue in array is zero, then return cuurent value --
+    BUMPUP   20
+    COPYFROM [20]
+    JUMPZ    returnSmallest
+    SUB      [22]
+    JUMPN    swapSmallestIndex
+    JUMP     sortArray
+
+returnSmallest:
+    COPYFROM [22]
+    OUTBOX   
+    -- replace value at swap index with value at sort index --
+    COPYFROM [21]
+    COPYTO   [22]
+    -- update sort index, swap index, and  loop index --
+    BUMPUP   21
+    COPYTO   22
+    COPYTO   20
+    JUMP     isEndOfArray
