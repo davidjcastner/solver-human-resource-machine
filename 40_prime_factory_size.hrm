@@ -1,0 +1,57 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- max factorization is 48 or 7*7-1 --
+
+-- r0: remaining product --
+-- r1: divisor --
+-- r2: factor --
+-- r3: swap space --
+-- r23: one value --
+-- r24: two value --
+
+setup:
+    -- update r23 and r24 --
+    BUMPUP   24
+    COPYTO   23
+    BUMPUP   24
+
+nextFactorization:
+    -- set factor to 2 --
+    COPYFROM 24
+    COPYTO   2
+    INBOX    
+    COPYTO   1
+
+nextFactor:
+    -- update remaining product --
+    COPYFROM 1
+    COPYTO   0
+    -- check if remainder is 1 --
+    SUB      23
+    JUMPZ    nextFactorization
+clearDivisor:
+    -- clear divisor --
+    COPYFROM 23
+    COPYTO   1
+    -- continue with dividing next factor --
+    COPYFROM 0
+
+divideByFactor:
+    -- divides by current prime --
+    SUB      2
+    JUMPN    incrementFactor
+    JUMPZ    returnFactor
+    COPYTO   3
+    BUMPUP   1
+    COPYFROM 3
+    JUMP     divideByFactor
+
+returnFactor:
+    COPYFROM 2
+    OUTBOX   
+    JUMP     nextFactor
+
+incrementFactor:
+    BUMPUP   2
+    JUMP     clearDivisor
+

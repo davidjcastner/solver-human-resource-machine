@@ -1,0 +1,58 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- r0: divisor --
+-- r1: prime index --
+-- r2: 2 --
+-- r3: 3 --
+-- r4: 5 --
+-- r5: remaining product --
+-- r23: swap space --
+-- r24: one value --
+
+setup:
+    -- create primes in low registers --
+    BUMPUP   24
+    COPYTO   2
+    BUMPUP   2
+    COPYTO   3
+    BUMPUP   3
+    ADD      2
+    COPYTO   4
+
+nextFactorization:
+    -- set prime index to pointer of smallest prime (will bumpup once) --
+    COPYFROM 24
+    COPYTO   1
+    INBOX    
+    COPYTO   5
+
+nextPrime:
+    BUMPUP   1
+
+nextFactor:
+    -- clear divisor --
+    COPYFROM 24
+    COPYTO   0
+    -- check if remaining = 1 --
+    COPYFROM 5
+    SUB      24
+    JUMPZ    nextFactorization
+    COPYFROM 5
+
+divideByPrime:
+    -- divides by current prime --
+    SUB      [1]
+    JUMPN    nextPrime
+    JUMPZ    returnFactor
+    COPYTO   23
+    BUMPUP   0
+    COPYFROM 23
+    JUMP     divideByPrime
+
+returnFactor:
+    COPYFROM [1]
+    OUTBOX   
+    COPYFROM 0
+    COPYTO   5
+    JUMP     nextFactor
+
