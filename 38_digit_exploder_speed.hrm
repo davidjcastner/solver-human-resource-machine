@@ -1,0 +1,199 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+-- setup digits in r1 - r9 --
+setup:
+    BUMPUP   9
+    COPYTO   1
+    BUMPUP   9
+    COPYTO   2
+    BUMPUP   9
+    COPYTO   3
+    BUMPUP   9
+    COPYTO   4
+    BUMPUP   9
+    COPYTO   5
+    BUMPUP   9
+    COPYTO   6
+    BUMPUP   9
+    COPYTO   7
+    BUMPUP   9
+    COPYTO   8
+    BUMPUP   9
+
+nextInbox:
+    INBOX    
+    -- subtract 100 until negative --
+    SUB      11
+    JUMPN    skip100s
+    SUB      11
+    JUMPN    return100
+    SUB      11
+    JUMPN    return200
+    SUB      11
+    JUMPN    return300
+    SUB      11
+    JUMPN    return400
+    SUB      11
+    JUMPN    return500
+    SUB      11
+    JUMPN    return600
+    SUB      11
+    JUMPN    return700
+    SUB      11
+    JUMPN    return800
+    -- can skip checking for 900 --
+    -- JUMP     return900 --
+
+return900:
+    COPYTO   0
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 0
+    JUMP     return900Resume
+
+return800:
+    COPYTO   0
+    COPYFROM 8
+    JUMP     return100sValue
+
+return700:
+    COPYTO   0
+    COPYFROM 7
+    JUMP     return100sValue
+
+return600:
+    COPYTO   0
+    COPYFROM 6
+    JUMP     return100sValue
+
+return500:
+    COPYTO   0
+    COPYFROM 5
+    JUMP     return100sValue
+
+return400:
+    COPYTO   0
+    COPYFROM 4
+    JUMP     return100sValue
+
+return300:
+    COPYTO   0
+    COPYFROM 3
+    JUMP     return100sValue
+
+return200:
+    COPYTO   0
+    COPYFROM 2
+    JUMP     return100sValue
+
+return100:
+    COPYTO   0
+    COPYFROM 1
+    -- JUMP     return100sValue --
+
+return100sValue:
+    OUTBOX
+    COPYFROM 0
+    ADD      11
+return900Resume:
+    -- subtract 10 until negative --
+    SUB      10
+    JUMPN    return00
+continueChecking10s:
+    SUB      10
+    JUMPN    return10
+    SUB      10
+    JUMPN    return20
+    SUB      10
+    JUMPN    return30
+    SUB      10
+    JUMPN    return40
+    SUB      10
+    JUMPN    return50
+    SUB      10
+    JUMPN    return60
+    SUB      10
+    JUMPN    return70
+    SUB      10
+    JUMPN    return80
+    -- can skip checking for 90 --
+    -- JUMP     return90 --
+
+return90:
+    COPYTO   0
+    COPYFROM 9
+    OUTBOX   
+    COPYFROM 0
+    OUTBOX   
+    JUMP     nextInbox
+
+return80:
+    COPYTO   0
+    COPYFROM 8
+    JUMP     return10sValue
+
+return70:
+    COPYTO   0
+    COPYFROM 7
+    JUMP     return10sValue
+
+return60:
+    COPYTO   0
+    COPYFROM 6
+    JUMP     return10sValue
+
+return50:
+    COPYTO   0
+    COPYFROM 5
+    JUMP     return10sValue
+
+return40:
+    COPYTO   0
+    COPYFROM 4
+    JUMP     return10sValue
+
+return30:
+    COPYTO   0
+    COPYFROM 3
+    JUMP     return10sValue
+
+return20:
+    COPYTO   0
+    COPYFROM 2
+    JUMP     return10sValue
+
+return10:
+    COPYTO   0
+    COPYFROM 1
+    -- JUMP     return10sValue --
+
+return10sValue:
+    OUTBOX   
+return1s:
+    COPYFROM 0
+skip10s:
+    ADD      10
+    OUTBOX   
+    JUMP     nextInbox
+
+return00:
+    -- have to recreate 0 value, then restore memory --
+    COPYTO   0
+    BUMPDN   1
+    OUTBOX   
+    BUMPUP   1
+    JUMP     return1s
+
+skip100s:
+    -- check if skipping 10s place as well --
+    ADD      11
+    SUB      10
+    JUMPN    skip10s
+    -- assumption: value < 100, value >= 10, hand = value - 10 --
+    JUMP     continueChecking10s
+
+-- skip10s: --
+    -- assumption both 100s and 10s place are zero --
+    -- ADD      10 --
+    -- OUTBOX    --
+    -- JUMP     nextInbox --
