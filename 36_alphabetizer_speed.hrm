@@ -1,0 +1,187 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+readStringA:
+    -- read string up to 10 characters --
+    INBOX    
+    COPYTO   0
+    JUMPZ    readStringB
+    INBOX    
+    COPYTO   1
+    JUMPZ    readStringB
+    INBOX    
+    COPYTO   2
+    JUMPZ    readStringB
+    INBOX    
+    COPYTO   3
+    JUMPZ    readStringB
+    INBOX    
+    COPYTO   4
+    JUMPZ    readStringB
+    INBOX    
+    COPYTO   5
+    JUMPZ    readStringB
+    INBOX    
+    COPYTO   6
+    JUMPZ    readStringB
+    INBOX    
+    COPYTO   7
+
+readStringB:
+    -- read string up to 10 characters --
+    INBOX    
+    COPYTO   10
+    JUMPZ    compareChar0
+    INBOX    
+    COPYTO   11
+    JUMPZ    compareChar0
+    INBOX    
+    COPYTO   12
+    JUMPZ    compareChar0
+    INBOX    
+    COPYTO   13
+    JUMPZ    compareChar0
+    INBOX    
+    COPYTO   14
+    JUMPZ    compareChar0
+    INBOX    
+    COPYTO   15
+    JUMPZ    compareChar0
+    INBOX    
+    COPYTO   16
+    JUMPZ    compareChar0
+    INBOX    
+    COPYTO   17
+
+compareChar0:
+    COPYFROM 10
+    JUMPZ    returnStringB
+    COPYFROM 0
+    JUMPZ    returnStringA
+    SUB      10
+    JUMPZ    compareChar1
+    JUMPN    returnStringA
+    JUMP     returnStringB
+
+compareChar1:
+    COPYFROM 11
+    JUMPZ    returnStringB
+    COPYFROM 1
+    JUMPZ    returnStringA
+    SUB      11
+    JUMPZ    compareChar2
+    JUMPN    returnStringA
+    JUMP     returnStringB
+
+compareChar2:
+    COPYFROM 12
+    JUMPZ    returnStringB
+    COPYFROM 2
+    JUMPZ    returnStringA
+    SUB      12
+    JUMPZ    compareChar3
+    JUMPN    returnStringA
+    JUMP     returnStringB
+
+compareChar3:
+    COPYFROM 13
+    JUMPZ    returnStringB
+    COPYFROM 3
+    JUMPZ    returnStringA
+    SUB      13
+    JUMPZ    compareChar4
+    JUMPN    returnStringA
+    JUMP     returnStringB
+
+compareChar4:
+    COPYFROM 14
+    JUMPZ    returnStringB
+    COPYFROM 4
+    JUMPZ    returnStringA
+    SUB      14
+    JUMPZ    compareChar5
+    JUMPN    returnStringA
+    JUMP     returnStringB
+
+compareChar5:
+    COPYFROM 15
+    JUMPZ    returnStringB
+    COPYFROM 5
+    JUMPZ    returnStringA
+    SUB      15
+    JUMPZ    compareChar6
+    JUMPN    returnStringA
+    JUMP     returnStringB
+
+compareChar6:
+    COPYFROM 16
+    JUMPZ    returnStringB
+    COPYFROM 6
+    JUMPZ    returnStringA
+    SUB      16
+    JUMPZ    compareChar7
+    JUMPN    returnStringA
+    JUMP     returnStringB
+
+compareChar7:
+    COPYFROM 17
+    JUMPZ    returnStringB
+    COPYFROM 7
+    JUMPZ    returnStringA
+    SUB      17
+    JUMPN    returnStringA
+
+returnStringB:
+    COPYFROM 10
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 11
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 12
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 13
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 14
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 15
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 16
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 17
+    JUMPZ    endProgram
+    OUTBOX   
+    JUMP     endProgram
+
+returnStringA:
+    COPYFROM 0
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 1
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 2
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 3
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 4
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 5
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 6
+    JUMPZ    endProgram
+    OUTBOX   
+    COPYFROM 7
+    JUMPZ    endProgram
+    OUTBOX   
+
+endProgram:
+

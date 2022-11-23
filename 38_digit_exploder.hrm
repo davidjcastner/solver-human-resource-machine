@@ -1,0 +1,44 @@
+-- HUMAN RESOURCE MACHINE PROGRAM --
+
+start:
+    COPYFROM 9
+    COPYTO   2
+    COPYTO   1
+    INBOX    
+    COPYTO   0
+
+check100s:
+    COPYFROM 0
+    SUB      11
+    JUMPN    check10s
+    COPYTO   0
+    BUMPUP   2
+    JUMP     check100s
+
+check10s:
+    COPYFROM 0
+    SUB      10
+    JUMPN    is100value
+    COPYTO   0
+    BUMPUP   1
+    JUMP     check10s
+
+is100value:
+    COPYFROM 2
+    JUMPZ    is10value
+    JUMP     return100s
+is10value:
+    COPYFROM 1
+    JUMPZ    return1s
+    JUMP     return10s
+
+return100s:
+    COPYFROM 2
+    OUTBOX   
+return10s:
+    COPYFROM 1
+    OUTBOX   
+return1s:
+    COPYFROM 0
+    OUTBOX   
+    JUMP     start
